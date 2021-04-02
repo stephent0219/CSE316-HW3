@@ -47,6 +47,27 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
     
 }
 
+export class SortColumn_Transaction extends jsTPS_Transaction {
+    constructor(listID, itemID, callback) {
+        super();
+        this.listID = listID;
+        this.itemID = itemID;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+		const { data } = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID}});
+		return data;
+    }
+
+    async undoTransaction() {
+		const {data} = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID}});
+		return data;
+
+    }
+    
+}
+
 export class EditItem_Transaction extends jsTPS_Transaction {
 	constructor(listID, itemID, field, prev, update, flag, callback) {
 		super();

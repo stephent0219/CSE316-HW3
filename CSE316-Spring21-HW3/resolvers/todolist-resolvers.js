@@ -162,7 +162,16 @@ module.exports = {
 			// return old ordering if reorder was unsuccessful
 			listItems = found.items;
 			return (found.items);
+		}
 
+		sortColumn: async(_,args) =>{
+			const { _id, itemId, direction } = args;
+			const listId = new ObjectId(_id);
+			const found = await Todolist.findOne({_id: listId});
+			let listItems = found.items.sort();
+			const updated = await Todolist.updateOne({_id: listId}, { items: listItems })
+			if(update) return (listItems);
+			else return (found.items);
 		}
 
 	}
