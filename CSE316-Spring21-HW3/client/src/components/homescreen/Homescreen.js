@@ -15,9 +15,10 @@ import { UpdateListField_Transaction,
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
 	EditItem_Transaction,
-	SortColumn_Transaction } 				from '../../utils/jsTPS';
+	SortTaskColumn_Transaction,
+	SortDueDateColumn_Transaction,
+	SortStatusColumn_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
-
 
 const Homescreen = (props) => {
 
@@ -35,8 +36,9 @@ const Homescreen = (props) => {
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
 
-	const [SortColumn]              = useMutation(mutations.SORT_COLUMN);
-
+	const [SortTaskColumn]              = useMutation(mutations.SORT_TASK_COLUMN);
+	const [SortDueDateColumn]              = useMutation(mutations.SORT_DUEDATE_COLUMN);
+	const [SortStatusColumn]              = useMutation(mutations.SORT_Status_COLUMN);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
@@ -128,9 +130,23 @@ const Homescreen = (props) => {
 		tpsRedo();
 	};
 
-	const sortColumn = async (itemID) => {
+	const sortTaskColumn = async () => {
 		let listID = activeList._id;
-		let transaction = new SortColumn_Transaction(listID, itemID, SortColumn);
+		let transaction = new SortTaskColumn_Transaction(listID, SortTaskColumn);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
+	const sortDueDateColumn = async () => {
+		let listID = activeList._id;
+		let transaction = new SortDueDateColumn_Transaction(listID, SortDueDateColumn);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
+	const sortStatusColumn = async () => {
+		let listID = activeList._id;
+		let transaction = new SortStatusColumn_Transaction(listID, SortStatusColumn);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -146,7 +162,7 @@ const Homescreen = (props) => {
 			items: [],
 		}
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		setActiveList({});/////////
+		setActiveList(list);/////////
 		props.tps.clearAllTransactions();
 	};
 
@@ -182,6 +198,10 @@ const Homescreen = (props) => {
 		
 		// todolists = newTodoLists;
 		// console.log(todolists);
+
+
+		// const { data } = await SortColumn({ variables: { _id: listID }});
+		// return data;
 		props.tps.clearAllTransactions();
 		setActiveList(todo);
 	};
@@ -207,7 +227,7 @@ const Homescreen = (props) => {
 	const setShowDelete = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
-		toggleShowDelete(!showDelete)
+		toggleShowDelete(!showDelete);
 	}
 
 	return (
@@ -256,6 +276,9 @@ const Homescreen = (props) => {
 									activeList={activeList} setActiveList={setActiveList}
 									tps = {props.tps}
 									undo={tpsUndo} redo={tpsRedo}
+									sortTaskColumn = {sortTaskColumn}
+									sortDueDateColumn = {sortDueDateColumn}
+									sortStatusColumn = {sortStatusColumn}
 								/>
 							</div>
 						:
@@ -273,7 +296,7 @@ const Homescreen = (props) => {
 			}
 
 			{
-				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch}setShowLogin={setShowLogin} />)
+				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch} setShowLogin={setShowLogin} />)
 			}
 
 		</WLayout>

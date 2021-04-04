@@ -47,26 +47,61 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
     
 }
 
-export class SortColumn_Transaction extends jsTPS_Transaction {
-    constructor(listID, itemID, callback) {
+export class SortTaskColumn_Transaction extends jsTPS_Transaction {
+    constructor(listID, callback) {
         super();
         this.listID = listID;
-        this.itemID = itemID;
 		this.updateFunction = callback;
 	}
 
     async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID}});
+        console.log("hello");
+		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
 		return data;
     }
 
     async undoTransaction() {
-		const {data} = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID}});
+		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
 		return data;
-
     }
-    
 }
+
+export class SortDueDateColumn_Transaction extends jsTPS_Transaction {
+    constructor(listID, callback) {
+        super();
+        this.listID = listID;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+
+    async undoTransaction() {
+		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+}
+
+export class SortStatusColumn_Transaction extends jsTPS_Transaction {
+    constructor(listID, callback) {
+        super();
+        this.listID = listID;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+
+    async undoTransaction() {
+		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+}
+
 
 export class EditItem_Transaction extends jsTPS_Transaction {
 	constructor(listID, itemID, field, prev, update, flag, callback) {

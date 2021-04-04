@@ -3,6 +3,7 @@ import { LOGIN } 			from '../../cache/mutations';
 import { useMutation }    	from '@apollo/client';
 
 import { WModal, WMHeader, WMMain, WMFooter, WButton, WInput } from 'wt-frontend';
+import WRow from 'wt-frontend/build/components/wgrid/WRow';
 
 const Login = (props) => {
 	const [input, setInput] = useState({ email: '', password: '' });
@@ -36,35 +37,34 @@ const Login = (props) => {
 
 	return (
         // Replace div with WModal
-
-		<div className="login-modal">
-			<div className="modal-header" onClose={() => props.setShowLogin(false)}>
+		<WModal className="login-modal" visible={true}>
+			<WMHeader className="modal-header" onClose={() => props.setShowLogin(false)}>
 				Login
-			</div>
+			</WMHeader>
 
 			{
-				loading ? <div />
-					: <div className="main-login-modal">
+				loading ? <WMMain />
+					: <WMMain className="main-login-modal">
 
 						<WInput className="modal-input" onBlur={updateInput} name='email' labelAnimation="up" barAnimation="solid" labelText="Email Address" wType="outlined" inputType='text' />
-						<div className="modal-spacer">&nbsp;</div>
+						<WRow className="modal-spacer">&nbsp;</WRow>
 						<WInput className="modal-input" onBlur={updateInput} name='password' labelAnimation="up" barAnimation="solid" labelText="Password" wType="outlined" inputType='password' />
 
 						{
-							showErr ? <div className='modal-error'>
+							showErr ? <WRow className='modal-error'>
 								{errorMsg}
-							</div>
-								: <div className='modal-error'>&nbsp;</div>
+							</WRow>
+								: <WRow className='modal-error'>&nbsp;</WRow>
 						}
 
-					</div>
+					</WMMain>
 			}
-			<div>
+			<WMFooter>
 				<WButton className="modal-button" onClick={handleLogin} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
 					Login
 				</WButton>
-			</div>
-		</div>
+			</WMFooter>
+		</WModal>
 	);
 }
 

@@ -15,20 +15,21 @@ const TableHeader = (props) => {
     return (
         <WRow className="table-header">
             <WCol size="4">
-                <WButton className='table-header-section' wType="texted" >Task</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortTaskColumn()}}>Task</WButton>
             </WCol>
 
             <WCol size="3">
-                <WButton className='table-header-section' wType="texted">Due Date</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortDueDateColumn()}}>Due Date</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Status</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortStatusColumn()}}>Status</WButton>
             </WCol>
 
             <WCol size="3">
                 <div className="table-header-buttons">
 
+                    
                     <WButton className="sidebar-buttons undo-redo" onClick={props.tps.hasTransactionToUndo()?props.undo:clickDisabled} 
                              wType="texted" clickAnimation="ripple-light" shape="rounded" style={props.tps.hasTransactionToUndo()?{color:"#e9edf0"}:{color:"#322d2d"}}>
                         <i className="material-icons">undo</i>
