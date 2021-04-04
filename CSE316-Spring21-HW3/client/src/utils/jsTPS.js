@@ -103,6 +103,26 @@ export class SortStatusColumn_Transaction extends jsTPS_Transaction {
 }
 
 
+export class SortAssignedColumn_Transaction extends jsTPS_Transaction {
+    constructor(listID, callback) {
+        super();
+        this.listID = listID;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+        console.log("hello");
+		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+
+    async undoTransaction() {
+		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
+		return data;
+    }
+}
+
+
 export class EditItem_Transaction extends jsTPS_Transaction {
 	constructor(listID, itemID, field, prev, update, flag, callback) {
 		super();

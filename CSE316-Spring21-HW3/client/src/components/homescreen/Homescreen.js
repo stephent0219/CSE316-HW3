@@ -17,7 +17,8 @@ import { UpdateListField_Transaction,
 	EditItem_Transaction,
 	SortTaskColumn_Transaction,
 	SortDueDateColumn_Transaction,
-	SortStatusColumn_Transaction } 				from '../../utils/jsTPS';
+	SortStatusColumn_Transaction,
+	SortAssignedColumn_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
 const Homescreen = (props) => {
@@ -38,7 +39,8 @@ const Homescreen = (props) => {
 
 	const [SortTaskColumn]              = useMutation(mutations.SORT_TASK_COLUMN);
 	const [SortDueDateColumn]              = useMutation(mutations.SORT_DUEDATE_COLUMN);
-	const [SortStatusColumn]              = useMutation(mutations.SORT_Status_COLUMN);
+	const [SortStatusColumn]              = useMutation(mutations.SORT_STATUS_COLUMN);
+	const [SortAssignedColumn]              = useMutation(mutations.SORT_ASSIGNED_COLUMN);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
@@ -148,6 +150,13 @@ const Homescreen = (props) => {
 	const sortStatusColumn = async () => {
 		let listID = activeList._id;
 		let transaction = new SortStatusColumn_Transaction(listID, SortStatusColumn);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
+	const sortAssignedColumn = async () => {
+		let listID = activeList._id;
+		let transaction = new SortAssignedColumn_Transaction(listID, SortAssignedColumn);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -280,6 +289,7 @@ const Homescreen = (props) => {
 									sortTaskColumn = {sortTaskColumn}
 									sortDueDateColumn = {sortDueDateColumn}
 									sortStatusColumn = {sortStatusColumn}
+									sortAssignedColumn = {sortAssignedColumn}
 								/>
 							</div>
 						:

@@ -27,7 +27,7 @@ const TableHeader = (props) => {
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Assigned To</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortAssignedColumn()}}>Assigned To</WButton>
             </WCol>
 
             <WCol size="3">

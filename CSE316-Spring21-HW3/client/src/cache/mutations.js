@@ -121,9 +121,22 @@ export const SORT_DUEDATE_COLUMN = gql`
 `;
 
 
-export const SORT_Status_COLUMN = gql`
+export const SORT_STATUS_COLUMN = gql`
 	mutation SortStatusColumn($_id: String!) {
 		sortStatusColumn(_id: $_id){
+			_id
+			id
+			description
+			due_date
+			assigned_to
+			completed
+		}
+	}
+`;
+
+export const SORT_ASSIGNED_COLUMN = gql`
+	mutation SortAssignedColumn($_id: String!) {
+		sortAssignedColumn(_id: $_id){
 			_id
 			id
 			description

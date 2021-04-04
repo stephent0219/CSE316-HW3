@@ -13,6 +13,7 @@ const MainContents = (props) => {
                 sortTaskColumn = {props.sortTaskColumn}
                 sortDueDateColumn = {props.sortDueDateColumn}
                 sortStatusColumn = {props.sortStatusColumn}
+                sortAssignedColumn = {props.sortAssignedColumn}
             />
             <TableContents
                 key={props.activeList.id} activeList={props.activeList}

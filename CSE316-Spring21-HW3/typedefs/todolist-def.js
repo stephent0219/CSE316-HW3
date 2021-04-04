@@ -32,6 +32,7 @@ const typeDefs = gql `
 		sortTaskColumn(_id: String!): [Item]
 		sortDueDateColumn(_id: String!): [Item]
 		sortStatusColumn(_id: String!): [Item]
+		sortAssignedColumn(_id: String!): [Item]
 	}
 	input FieldInput {
 		_id: String
