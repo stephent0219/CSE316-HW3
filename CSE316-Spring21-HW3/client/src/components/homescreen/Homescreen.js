@@ -84,8 +84,9 @@ const Homescreen = (props) => {
 			id: lastID,
 			description: 'No Description',
 			due_date: 'No Date',
-			assigned_to: props.user._id,
+			assigned_to: 'No Assigned',
 			completed: false
+			// assigned_to: props.user._id,
 		};
 		let opcode = 1;
 		let itemID = newItem._id;
