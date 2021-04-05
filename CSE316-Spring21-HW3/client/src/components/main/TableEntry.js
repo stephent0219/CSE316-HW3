@@ -117,8 +117,9 @@ const TableEntry = (props) => {
                              style={(props.index===props.activeList.items.length-1) ? {pointerEvents: "none",color:"#322d2d"} : {pointerEvents: "auto",color:"#e9edf0"}}>
                         <i className="material-icons">expand_more</i>
                     </WButton>
-                    <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data)} wType="texted">
+                    <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">
                         <i className="material-icons">close</i>
+                        {/* onClick={() => props.deleteItem(data)} */}
                     </WButton>
                 </div>
             </WCol>

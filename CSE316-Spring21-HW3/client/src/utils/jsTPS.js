@@ -47,61 +47,6 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
     
 }
 
-// export class SortTaskColumn_Transaction extends jsTPS_Transaction {
-//     constructor(listID, callback) {
-//         super();
-//         this.listID = listID;
-// 		this.updateFunction = callback;
-// 	}
-
-//     async doTransaction() {
-// 		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-
-//     async undoTransaction() {
-// 		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-// }
-
-// export class SortDueDateColumn_Transaction extends jsTPS_Transaction {
-//     constructor(listID, callback) {
-//         super();
-//         this.listID = listID;
-// 		this.updateFunction = callback;
-// 	}
-
-//     async doTransaction() {
-// 		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-
-//     async undoTransaction() {
-// 		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-// }
-
-// export class SortStatusColumn_Transaction extends jsTPS_Transaction {
-//     constructor(listID, callback) {
-//         super();
-//         this.listID = listID;
-// 		this.updateFunction = callback;
-// 	}
-
-//     async doTransaction() {
-// 		const { data } = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-
-//     async undoTransaction() {
-// 		const {data} = await this.updateFunction({ variables: { _id: this.listID }});
-// 		return data;
-//     }
-// }
-
-
 export class SortColumn_Transaction extends jsTPS_Transaction {
     constructor(listID,currentlist,columnNum,callback) {
         super();
@@ -174,7 +119,7 @@ export class EditItem_Transaction extends jsTPS_Transaction {
 /*  Handles create/delete of list items */
 export class UpdateListItems_Transaction extends jsTPS_Transaction {
     // opcodes: 0 - delete, 1 - add 
-    constructor(listID, itemID, item, opcode, addfunc, delfunc) {
+    constructor(listID, itemID, item, opcode, addfunc, delfunc, index = -1){
         super();
         this.listID = listID;
 		this.itemID = itemID;
@@ -182,13 +127,14 @@ export class UpdateListItems_Transaction extends jsTPS_Transaction {
         this.addFunction = addfunc;
         this.deleteFunction = delfunc;
         this.opcode = opcode;
+        this.index = index;
     }
     async doTransaction() {
 		let data;
         this.opcode === 0 ? { data } = await this.deleteFunction({
 							variables: {itemId: this.itemID, _id: this.listID}})
 						  : { data } = await this.addFunction({
-							variables: {item: this.item, _id: this.listID}})  
+							variables: {item: this.item, _id: this.listID, index: this.index}})  
 		if(this.opcode !== 0) {
             this.item._id = this.itemID = data.addItem;
 		}
@@ -200,7 +146,7 @@ export class UpdateListItems_Transaction extends jsTPS_Transaction {
         this.opcode === 1 ? { data } = await this.deleteFunction({
 							variables: {itemId: this.itemID, _id: this.listID}})
                           : { data } = await this.addFunction({
-							variables: {item: this.item, _id: this.listID}})
+							variables: {item: this.item, _id: this.listID, index: this.index}})
 		if(this.opcode !== 1) {
             this.item._id = this.itemID = data.addItem;
         }

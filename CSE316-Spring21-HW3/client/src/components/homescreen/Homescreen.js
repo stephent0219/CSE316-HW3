@@ -98,8 +98,7 @@ const Homescreen = (props) => {
 		tpsRedo();
 	};
 
-
-	const deleteItem = async (item) => {
+	const deleteItem = async (item, index) => { 
 		let listID = activeList._id;
 		let itemID = item._id;
 		let opcode = 0;
@@ -111,7 +110,7 @@ const Homescreen = (props) => {
 			assigned_to: item.assigned_to,
 			completed: item.completed
 		}
-		let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem);
+		let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem, index);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -163,9 +162,14 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
-		console.log(list);
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		setActiveList(list);///////
+		// setActiveList(list);
+		await refetchTodos(refetch);
+  		if(data) {
+   			let _id = data.addTodolist;
+   			let newList = todolists.find(list => list._id === _id);
+   			setActiveList(newList);
+  		}
 		props.tps.clearAllTransactions();
 	};
 
