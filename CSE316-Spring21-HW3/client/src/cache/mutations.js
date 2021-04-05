@@ -135,8 +135,8 @@ export const SORT_STATUS_COLUMN = gql`
 `;
 
 export const SORT_ASSIGNED_COLUMN = gql`
-	mutation SortAssignedColumn($_id: String!) {
-		sortAssignedColumn(_id: $_id){
+	mutation SortAssignedColumn($_id: String!, $todolist: TodoInput!, $sortflag: Boolean!) {
+		sortAssignedColumn(_id: $_id, todolist: $todolist, sortflag: $sortflag){
 			_id
 			id
 			description

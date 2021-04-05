@@ -156,7 +156,20 @@ const Homescreen = (props) => {
 
 	const sortAssignedColumn = async () => {
 		let listID = activeList._id;
-		let transaction = new SortAssignedColumn_Transaction(listID, SortAssignedColumn);
+		var list;
+		for(let i = 0; i < todolists.length; i++){
+			if(todolists[i]._id == listID){
+				list = todolists[i];
+			}
+		}
+		let currentList ={
+			_id: list._id,
+			id: list.id,
+			name: list.name,
+			owner: list.owner,
+			items: list.items,
+		}
+		let transaction = new SortAssignedColumn_Transaction(listID, currentList, SortAssignedColumn);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -171,8 +184,9 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
+		console.log(list);
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		setActiveList(list);/////////
+		setActiveList(list);///////
 		props.tps.clearAllTransactions();
 	};
 
