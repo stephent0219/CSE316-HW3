@@ -5,12 +5,12 @@ const TableEntry = (props) => {
     const { data } = props;
 
     const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
-
     const description = data.description;
     const due_date = data.due_date;
     const status = data.completed ? 'complete' : 'incomplete';
 
     const assigned = data.assigned_to;
+    const assignedStyle = data.completed ? ' complete-assigned' : ' incomplete-assigned';
 
 
     const [editingDate, toggleDateEdit] = useState(false);
@@ -101,9 +101,8 @@ const TableEntry = (props) => {
                             autoFocus={true} defaultValue={assigned} type='text'
                             wType="outlined" barAnimation="solid" inputClass="table-input-class"
                         />
-                        : <div className="table-text"
-                            onClick={() => toggleAssignedEdit(!editingAssigned)}
-                        >{assigned}
+                        : <div onClick={() => toggleAssignedEdit(!editingAssigned)} className={`${assignedStyle} table-text`}>
+                            {assigned}
                         </div>
                 }
             </WCol>
@@ -123,68 +122,7 @@ const TableEntry = (props) => {
                     </WButton>
                 </div>
             </WCol>
-        </WRow>
-        // <WRow className='table-entry'>
-        //     <WCol size="4">
-        //         {
-        //             editingDescr || description === ''
-        //                 ? <WInput
-        //                     className='table-input' onBlur={handleDescrEdit}
-        //                     autoFocus={true} defaultValue={description} type='text'
-        //                     wType="outlined" barAnimation="solid" inputClass="table-input-class"
-        //                 />
-        //                 : <div className="table-text"
-        //                     onClick={() => toggleDescrEdit(!editingDescr)}
-        //                 >{description}
-        //                 </div>
-        //         }
-        //     </WCol>
-
-        //     <WCol size="3">
-        //         {
-        //             editingDate ? <input
-        //                 className='table-input' onBlur={handleDateEdit}
-        //                 autoFocus={true} defaultValue={due_date} type='date'
-        //                 wType="outlined" barAnimation="solid" inputClass="table-input-class"
-        //             />
-        //                 : <div className="table-text"
-        //                     onClick={() => toggleDateEdit(!editingDate)}
-        //                 >{due_date}
-        //                 </div>
-        //         }
-        //     </WCol>
-
-        //     <WCol size="2">
-        //         {
-        //             editingStatus ? <select
-        //                 className='table-select' onBlur={handleStatusEdit}
-        //                 autoFocus={true} defaultValue={status}
-        //             >
-        //                 <option value="complete">complete</option>
-        //                 <option value="incomplete">incomplete</option>
-        //             </select>
-        //                 : <div onClick={() => toggleStatusEdit(!editingStatus)} className={`${completeStyle} table-text`}>
-        //                     {status}
-        //                 </div>
-        //         }
-        //     </WCol>
-
-        //     <WCol size="3">
-        //         <div className='button-group'>
-        //             <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, -1)} wType="texted"
-        //                      style={(props.index===0) ? {pointerEvents: "none",color:"#322d2d"} : {pointerEvents: "auto",color:"#e9edf0"}}>
-        //                 <i className="material-icons">expand_less</i>
-        //             </WButton>
-        //             <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, 1)} wType="texted"
-        //                      style={(props.index===props.activeList.items.length-1) ? {pointerEvents: "none",color:"#322d2d"} : {pointerEvents: "auto",color:"#e9edf0"}}>
-        //                 <i className="material-icons">expand_more</i>
-        //             </WButton>
-        //             <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data)} wType="texted">
-        //                 <i className="material-icons">close</i>
-        //             </WButton>
-        //         </div>
-        //     </WCol>
-        // </WRow>
+        </WRow>     
     );
 };
 
