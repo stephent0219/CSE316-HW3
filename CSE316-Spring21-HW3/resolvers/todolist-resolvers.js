@@ -164,146 +164,122 @@ module.exports = {
 			return (found.items);
 		},
 
-		sortTaskColumn: async (_,args) => {
-			const { _id} = args;
-			const listId = new ObjectId(_id);
-			const found = await Todolist.findOne({_id: listId});
-			let listItems = found.items;
-
-			var flag = true;
-			for(let i = 0; i < listItems.length-1; i++){
-				if(listItems[i].description > listItems[i+1].description){
-					flag = false;
-				}
-			}
-			if(flag){
-				listItems.sort( (a,b) =>{
-					if(a.description > b.description){
-						return -1;
-					}else{
-						return 1;
-					}
-				});
-			}else{
-				listItems.sort( (a,b) =>{
-					if(a.description > b.description){
-						return 1;
-					}else{
-						return -1;
-					}
-				});
-			}
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems })
-			if(updated) return (listItems);
-			else return (found.items);
-		},
-
-		sortDueDateColumn: async (_,args) => {
-			const { _id} = args;
-			const listId = new ObjectId(_id);
-			const found = await Todolist.findOne({_id: listId});
-			let listItems = found.items;
-
-			var flag = true;
-			for(let i = 0; i < listItems.length-1; i++){
-				if(listItems[i].due_date > listItems[i+1].due_date){
-					flag = false;
-				}
-			}
-			if(flag){
-				listItems.sort( (a,b) =>{
-					if(a.due_date > b.due_date){
-						return -1;
-					}else{
-						return 1;
-					}
-				});
-			}else{
-				listItems.sort( (a,b) =>{
-					if(a.due_date > b.due_date){
-						return 1;
-					}else{
-						return -1;
-					}
-				});
-			}
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems })
-			if(updated) return (listItems);
-			else return (found.items);
-		},
-
-
-		sortStatusColumn: async (_,args) => {
-			const { _id} = args;
-			const listId = new ObjectId(_id);
-			const found = await Todolist.findOne({_id: listId});
-			let listItems = found.items;
-			
-			var flag = true;
-			for(let i = 0; i < listItems.length-1; i++){
-				if(listItems[i].completed < listItems[i+1].completed){
-					flag = false;
-				}
-			}
-			if(flag){
-				listItems.sort( (a,b) =>{
-					if(a.completed > b.completed){
-						return 1;
-					}else{
-						return -1;
-					}
-				});
-			}else{
-				listItems.sort( (a,b) =>{
-					if(a.completed > b.completed){
-						return -1;
-					}else{
-						return 1;
-					}
-				});
-			}
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems })
-			if(updated) return (listItems);
-			else return (found.items);
-		},
-
-		sortAssignedColumn: async (_,args) => {
-			const { _id,todolist,sortflag} = args;
+		sortColumn: async (_,args) => {
+			const { _id,todolist,columnNum,sortflag} = args;
 			const listId = new ObjectId(_id);
 			const found = await Todolist.findOne({_id: listId});
 			let listItems = found.items;
 
 			if(sortflag){
-				var flag = true;
-				for(let i = 0; i < listItems.length-1; i++){
-					if(listItems[i].assigned_to > listItems[i+1].assigned_to){
-						flag = false;
+				
+				if(columnNum === 1){
+					var flag = true;
+					for(let i = 0; i < listItems.length-1; i++){
+						if(listItems[i].description > listItems[i+1].description){
+							flag = false;
+						}
+					}
+					if(flag){
+						listItems.sort( (a,b) =>{
+							if(a.description > b.description){
+								return -1;
+							}else{
+								return 1;
+							}
+						});
+					}else{
+						listItems.sort( (a,b) =>{
+							if(a.description > b.description){
+								return 1;
+							}else{
+								return -1;
+							}
+						});
+					}
+				}else if(columnNum === 2){
+					var flag = true;
+					for(let i = 0; i < listItems.length-1; i++){
+						if(listItems[i].due_date > listItems[i+1].due_date){
+							flag = false;
+						}
+					}
+					if(flag){
+						listItems.sort( (a,b) =>{
+							if(a.due_date > b.due_date){
+								return -1;
+							}else{
+								return 1;
+							}
+						});
+					}else{
+						listItems.sort( (a,b) =>{
+							if(a.due_date > b.due_date){
+								return 1;
+							}else{
+								return -1;
+							}
+						});
+					}
+				}else if(columnNum === 3){
+					var flag = true;
+					for(let i = 0; i < listItems.length-1; i++){
+						if(listItems[i].completed < listItems[i+1].completed){
+							flag = false;
+						}
+					}
+					if(flag){
+						listItems.sort( (a,b) =>{
+							if(a.completed > b.completed){
+								return 1;
+							}else{
+								return -1;
+							}
+						});
+					}else{
+						listItems.sort( (a,b) =>{
+							if(a.completed > b.completed){
+								return -1;
+							}else{
+								return 1;
+							}
+						});
+					}
+				}else if(columnNum === 4){
+					var flag = true;
+					for(let i = 0; i < listItems.length-1; i++){
+						if(listItems[i].assigned_to > listItems[i+1].assigned_to){
+							flag = false;
+						}
+					}
+					if(flag){
+						listItems.sort( (a,b) =>{
+							if(a.assigned_to > b.assigned_to){
+								return -1;
+							}else{
+								return 1;
+							}
+						});
+					}else{
+						listItems.sort( (a,b) =>{
+							if(a.assigned_to > b.assigned_to){
+								return 1;
+							}else{
+								return -1;
+							}
+						});
 					}
 				}
-				if(flag){
-					listItems.sort( (a,b) =>{
-						if(a.assigned_to > b.assigned_to){
-							return -1;
-						}else{
-							return 1;
-						}
-					});
-				}else{
-					listItems.sort( (a,b) =>{
-						if(a.assigned_to > b.assigned_to){
-							return 1;
-						}else{
-							return -1;
-						}
-					});
-				}
+			
 			}else{
 				listItems = todolist.items;
 			}
 
+
+
 			const updated = await Todolist.updateOne({_id: listId}, { items: listItems })
 			if(updated) return (listItems);
 			else return (found.items);
+
 		}
 
 	}

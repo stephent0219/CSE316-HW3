@@ -92,51 +92,9 @@ export const UPDATE_TODOLIST_FIELD = gql`
 	}
 `;
 
-
-export const SORT_TASK_COLUMN = gql`
-	mutation SortTaskColumn($_id: String!) {
-		sortTaskColumn(_id: $_id){
-			_id
-			id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-
-export const SORT_DUEDATE_COLUMN = gql`
-	mutation SortDueDateColumn($_id: String!) {
-		sortDueDateColumn(_id: $_id){
-			_id
-			id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-
-export const SORT_STATUS_COLUMN = gql`
-	mutation SortStatusColumn($_id: String!) {
-		sortStatusColumn(_id: $_id){
-			_id
-			id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const SORT_ASSIGNED_COLUMN = gql`
-	mutation SortAssignedColumn($_id: String!, $todolist: TodoInput!, $sortflag: Boolean!) {
-		sortAssignedColumn(_id: $_id, todolist: $todolist, sortflag: $sortflag){
+export const SORT_COLUMN = gql`
+	mutation SortColumn($_id: String!, $todolist: TodoInput!, $columnNum: Int!, $sortflag: Boolean!) {
+		sortColumn(_id: $_id, todolist: $todolist, columnNum: $columnNum ,sortflag: $sortflag){
 			_id
 			id
 			description

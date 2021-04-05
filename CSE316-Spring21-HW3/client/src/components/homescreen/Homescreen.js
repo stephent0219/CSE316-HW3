@@ -15,10 +15,10 @@ import { UpdateListField_Transaction,
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
 	EditItem_Transaction,
-	SortTaskColumn_Transaction,
-	SortDueDateColumn_Transaction,
-	SortStatusColumn_Transaction,
-	SortAssignedColumn_Transaction } 				from '../../utils/jsTPS';
+	// SortTaskColumn_Transaction,
+	// SortDueDateColumn_Transaction,
+	// SortStatusColumn_Transaction,
+	SortColumn_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
 const Homescreen = (props) => {
@@ -37,10 +37,10 @@ const Homescreen = (props) => {
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
 
-	const [SortTaskColumn]              = useMutation(mutations.SORT_TASK_COLUMN);
-	const [SortDueDateColumn]              = useMutation(mutations.SORT_DUEDATE_COLUMN);
-	const [SortStatusColumn]              = useMutation(mutations.SORT_STATUS_COLUMN);
-	const [SortAssignedColumn]              = useMutation(mutations.SORT_ASSIGNED_COLUMN);
+	// const [SortTaskColumn]              = useMutation(mutations.SORT_TASK_COLUMN);
+	// const [SortDueDateColumn]              = useMutation(mutations.SORT_DUEDATE_COLUMN);
+	// const [SortStatusColumn]              = useMutation(mutations.SORT_STATUS_COLUMN);
+	const [SortColumn]              = useMutation(mutations.SORT_COLUMN);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
@@ -133,28 +133,7 @@ const Homescreen = (props) => {
 		tpsRedo();
 	};
 
-	const sortTaskColumn = async () => {
-		let listID = activeList._id;
-		let transaction = new SortTaskColumn_Transaction(listID, SortTaskColumn);
-		props.tps.addTransaction(transaction);
-		tpsRedo();
-	};
-
-	const sortDueDateColumn = async () => {
-		let listID = activeList._id;
-		let transaction = new SortDueDateColumn_Transaction(listID, SortDueDateColumn);
-		props.tps.addTransaction(transaction);
-		tpsRedo();
-	};
-
-	const sortStatusColumn = async () => {
-		let listID = activeList._id;
-		let transaction = new SortStatusColumn_Transaction(listID, SortStatusColumn);
-		props.tps.addTransaction(transaction);
-		tpsRedo();
-	};
-
-	const sortAssignedColumn = async () => {
+	const sortColumn = async (columnNum) => {
 		let listID = activeList._id;
 		var list;
 		for(let i = 0; i < todolists.length; i++){
@@ -169,7 +148,7 @@ const Homescreen = (props) => {
 			owner: list.owner,
 			items: list.items,
 		}
-		let transaction = new SortAssignedColumn_Transaction(listID, currentList, SortAssignedColumn);
+		let transaction = new SortColumn_Transaction(listID, currentList, columnNum, SortColumn);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -300,10 +279,10 @@ const Homescreen = (props) => {
 									activeList={activeList} setActiveList={setActiveList}
 									tps = {props.tps}
 									undo={tpsUndo} redo={tpsRedo}
-									sortTaskColumn = {sortTaskColumn}
-									sortDueDateColumn = {sortDueDateColumn}
-									sortStatusColumn = {sortStatusColumn}
-									sortAssignedColumn = {sortAssignedColumn}
+									// sortTaskColumn = {sortTaskColumn}
+									// sortDueDateColumn = {sortDueDateColumn}
+									// sortStatusColumn = {sortStatusColumn}
+									sortColumn = {sortColumn}
 								/>
 							</div>
 						:

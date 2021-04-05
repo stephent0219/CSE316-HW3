@@ -15,19 +15,19 @@ const TableHeader = (props) => {
     return (
         <WRow className="table-header">
             <WCol size="3">
-                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortTaskColumn()}}>Task</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortColumn(1)}}>Task</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortDueDateColumn()}}>Due Date</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortColumn(2)}}>Due Date</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortStatusColumn()}}>Status</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortColumn(3)}}>Status</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortAssignedColumn()}}>Assigned To</WButton>
+                <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortColumn(4)}}>Assigned To</WButton>
             </WCol>
 
             <WCol size="3">
