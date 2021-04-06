@@ -162,8 +162,14 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
+		
+		// const refetched = await refetchTodos(refetch);
+		// if(refetched && data) {
+   		// 	setActiveList({_id: refetched.data.addTodolist})
+  		// }
+  		// const { loading, error, data } = await refetchTodos(refetch);
+
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		// setActiveList(list);
 		await refetchTodos(refetch);
   		if(data) {
    			let _id = data.addTodolist;
@@ -189,6 +195,15 @@ const Homescreen = (props) => {
 
 	const handleSetActive = (id) => {
 		const todo = todolists.find(todo => todo.id === id || todo._id === id);
+
+		var resetColor;
+		for(let i = 0; i < todolists.length; i++){
+			resetColor = document.getElementById("currentList-"+todolists[i].id);
+			resetColor.style.color = "#e9edf0";
+		}
+		var currentList = document.getElementById("currentList-"+id);
+		currentList.style.color = "#ffc800";
+
 		// var newTodoLists = [...todolists];
 		// var counter;
 		// todolists.forEach((list, index) => {
@@ -283,9 +298,6 @@ const Homescreen = (props) => {
 									activeList={activeList} setActiveList={setActiveList}
 									tps = {props.tps}
 									undo={tpsUndo} redo={tpsRedo}
-									// sortTaskColumn = {sortTaskColumn}
-									// sortDueDateColumn = {sortDueDateColumn}
-									// sortStatusColumn = {sortStatusColumn}
 									sortColumn = {sortColumn}
 								/>
 							</div>
