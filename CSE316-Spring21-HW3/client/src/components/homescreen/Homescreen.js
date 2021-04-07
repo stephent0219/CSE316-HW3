@@ -15,9 +15,6 @@ import { UpdateListField_Transaction,
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
 	EditItem_Transaction,
-	// SortTaskColumn_Transaction,
-	// SortDueDateColumn_Transaction,
-	// SortStatusColumn_Transaction,
 	SortColumn_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
@@ -36,10 +33,7 @@ const Homescreen = (props) => {
 	const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
-
-	// const [SortTaskColumn]              = useMutation(mutations.SORT_TASK_COLUMN);
-	// const [SortDueDateColumn]              = useMutation(mutations.SORT_DUEDATE_COLUMN);
-	// const [SortStatusColumn]              = useMutation(mutations.SORT_STATUS_COLUMN);
+	
 	const [SortColumn]              = useMutation(mutations.SORT_COLUMN);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
@@ -49,17 +43,30 @@ const Homescreen = (props) => {
 
 	const auth = props.user === null ? false : true;
 
+	// const refetchTodos = async (refetch) => {
+	// 	const { loading, error, data } = await refetch();
+	// 	if (data) {
+	// 		todolists = data.getAllTodos;
+	// 		if (activeList._id) {
+	// 			let tempID = activeList._id;
+	// 			let list = todolists.find(list => list._id === tempID);
+	// 			setActiveList(list);
+	// 		}
+	// 	}
+	// }
 	const refetchTodos = async (refetch) => {
 		const { loading, error, data } = await refetch();
 		if (data) {
-			todolists = data.getAllTodos;
-			if (activeList._id) {
-				let tempID = activeList._id;
-				let list = todolists.find(list => list._id === tempID);
-				setActiveList(list);
-			}
+		 todolists = data.getAllTodos;
+		 if (activeList._id) {
+		  let tempID = activeList._id;
+		  let list = todolists.find(list => list._id === tempID);
+		  setActiveList(list);
+		 }
+		 return true
 		}
-	}
+		else return false;
+	   }
 
 	const tpsUndo = async () => {
 		const retVal = await props.tps.undoTransaction();
@@ -162,20 +169,15 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
-		
-		// const refetched = await refetchTodos(refetch);
-		// if(refetched && data) {
-   		// 	setActiveList({_id: refetched.data.addTodolist})
-  		// }
-  		// const { loading, error, data } = await refetchTodos(refetch);
-
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		await refetchTodos(refetch);
-  		if(data) {
-   			let _id = data.addTodolist;
-   			let newList = todolists.find(list => list._id === _id);
-   			setActiveList(newList);
-  		}
+		
+		const refetched = await refetchTodos(refetch);
+		if(refetched && data) {
+		 let _id = data.addTodolist;
+		 let newList = todolists.find(list => list._id === _id);
+		 setActiveList(newList)
+		}
+		
 		props.tps.clearAllTransactions();
 	};
 
