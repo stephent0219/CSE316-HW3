@@ -57,15 +57,23 @@ const Homescreen = (props) => {
 	// 	}
 	// }
 	const refetchTodos = async (refetch) => {
+		console.log("adsdasdasdaassada");
 		const { loading, error, data } = await refetch();
 		if (data) {
-		 todolists = data.getAllTodos;
-		 if (activeList._id) {
-		  let tempID = activeList._id;
-		  let list = todolists.find(list => list._id === tempID);
-		  setActiveList(list);
-		 }
-		 return true
+		 	todolists = data.getAllTodos;
+		 	// if (activeList._id) {
+		  	// let tempID = activeList._id;
+		  	// let list = todolists.find(list => list._id === tempID);
+		  	// setActiveList(list);
+			  setActiveList((activeList)=>{
+				  if(activeList._id){
+					let tempID = activeList._id;
+					let list = todolists.find(list => list._id === tempID);
+					return list;
+				  }
+			  })
+		
+		 	return true
 		}
 		else return false;
 	   }
@@ -216,14 +224,17 @@ const Homescreen = (props) => {
 		setActiveList(todo);
 	};
 
-	// React.useEffect(()=>{window.addEventListener('keydown',(event)=>{
-	// 	if((event.ctrlKey && event.key === 'z') || (event.ctrlKey && event.key === 'Z')){
-	// 		tpsUndo();
-	// 	}else if((event.ctrlKey && event.key === 'y') || (event.ctrlKey && event.key === 'Y')){
-	// 		tpsRedo();
-	// 	}
-	// });},[]);
-
+	useEffect(()=>{window.addEventListener('keydown',(event)=>{
+		
+		if((event.ctrlKey && event.key === 'z') || (event.ctrlKey && event.key === 'Z')){
+			tpsUndo();
+		}else if((event.ctrlKey && event.key === 'y') || (event.ctrlKey && event.key === 'Y')){
+			tpsRedo();
+		}
+		// refetch();
+		
+	});},[props.tps]);
+	
 	/*
 		Since we only have 3 modals, this sort of hardcoding isnt an issue, if there
 		were more it would probably make sense to make a general modal component, and
