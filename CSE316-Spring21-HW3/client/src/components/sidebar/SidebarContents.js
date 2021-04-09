@@ -13,6 +13,7 @@ const SidebarContents = (props) => {
                 activeid={props.activeid} handleSetActive={props.handleSetActive}
                 todolists={props.todolists} createNewList={props.createNewList}
                 updateListField={props.updateListField}
+                activeList = {props.activeList}
             />
         </>
     );

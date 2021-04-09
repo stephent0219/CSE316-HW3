@@ -8,9 +8,15 @@ const TableHeader = (props) => {
     const clickDisabled = () => { };
 
     const closeList = async () => {
+        var resetColor;
+        for(let i = 0; i < props.todolists.length; i++){
+			resetColor = document.getElementById("currentList-"+props.todolists[i].id);
+			resetColor.style.color = "#e9edf0";
+		}
         props.tps.clearAllTransactions();
 		props.setActiveList({})
 	}
+
 
     return (
         <WRow className="table-header">
@@ -57,46 +63,7 @@ const TableHeader = (props) => {
             </WCol>
 
         </WRow>
-        // <WRow className="table-header">
-        //     <WCol size="4">
-        //         <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortTaskColumn()}}>Task</WButton>
-        //     </WCol>
-
-        //     <WCol size="3">
-        //         <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortDueDateColumn()}}>Due Date</WButton>
-        //     </WCol>
-
-        //     <WCol size="2">
-        //         <WButton className='table-header-section' wType="texted" onClick = {()=>{props.sortStatusColumn()}}>Status</WButton>
-        //     </WCol>
-
-        //     <WCol size="3">
-        //         <div className="table-header-buttons">
-
-                    
-        //             <WButton className="sidebar-buttons undo-redo" onClick={props.tps.hasTransactionToUndo()?props.undo:clickDisabled} 
-        //                      wType="texted" clickAnimation="ripple-light" shape="rounded" style={props.tps.hasTransactionToUndo()?{color:"#e9edf0"}:{color:"#322d2d"}}>
-        //                 <i className="material-icons">undo</i>
-        //             </WButton>
-        //             <WButton className="sidebar-buttons undo-redo"  onClick={props.tps.hasTransactionToRedo()?props.redo:clickDisabled}
-        //                      wType="texted" clickAnimation="ripple-light" shape="rounded" style={props.tps.hasTransactionToRedo()?{color:"#e9edf0"}:{color:"#322d2d"}}>
-        //                 <i className="material-icons">redo</i>
-        //             </WButton>
-
-                    
-        //             <WButton onClick={props.disabled ? clickDisabled : props.addItem} wType="texted" className={`${buttonStyle}`}>
-        //                 <i className="material-icons">add_box</i>
-        //             </WButton>
-        //             <WButton onClick={props.disabled ? clickDisabled : props.setShowDelete} wType="texted" className={`${buttonStyle}`}>
-        //                 <i className="material-icons">delete_outline</i>
-        //             </WButton>
-        //             <WButton onClick={props.disabled ? clickDisabled : () => closeList()} wType="texted" className={`${buttonStyle}`}>
-        //                 <i className="material-icons">close</i>
-        //             </WButton>
-        //         </div>
-        //     </WCol>
-
-        // </WRow>
+        
     );
 };
 

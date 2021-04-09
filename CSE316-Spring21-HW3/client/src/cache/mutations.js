@@ -105,4 +105,10 @@ export const SORT_COLUMN = gql`
 	}
 `;
 
+export const SELECT_TO_TOP = gql`
+	mutation SelectToTop($_id: String!, $id: Int!, $min: Int!) {
+		selectToTop(_id: $_id, id: $id, min: $min)
+	}
+`;
+
 

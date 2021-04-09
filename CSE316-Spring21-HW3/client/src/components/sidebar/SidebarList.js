@@ -11,6 +11,8 @@ const SidebarList = (props) => {
                         handleSetActive={props.handleSetActive} activeid={props.activeid}
                         id={todo.id} key={todo.id} name={todo.name} _id={todo._id}
                         updateListField={props.updateListField}
+                        todolists={props.todolists}
+                        activeList = {props.activeList}
                     />
                 ))
             }

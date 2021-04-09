@@ -22,7 +22,8 @@ const SidebarEntry = (props) => {
     return (
         <WNavItem 
             className={entryStyle} onDoubleClick={handleEditing} id = {"currentList-"+props.id}
-            onClick={() => { props.handleSetActive(props.id) }} hoverAnimation="lighten"
+            onClick={() => { props.handleSetActive(props._id,props.id) }} hoverAnimation="lighten"
+            style={(props._id === props.activeList._id) ? {color:"#ffc800"} : {color:"#e9edf0"}}
         >
             {
                 editing ? <WInput className="list-item-edit" inputClass="list-item-edit-input" wType="lined" 

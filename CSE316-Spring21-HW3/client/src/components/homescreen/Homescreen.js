@@ -36,6 +36,8 @@ const Homescreen = (props) => {
 	
 	const [SortColumn]              = useMutation(mutations.SORT_COLUMN);
 
+	const [SelectToTop]             = useMutation(mutations.SELECT_TO_TOP); 
+
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
@@ -69,12 +71,14 @@ const Homescreen = (props) => {
 	   }
 
 	const tpsUndo = async () => {
+		console.log("hello world");
 		const retVal = await props.tps.undoTransaction();
 		refetchTodos(refetch);
 		return retVal;
 	}
 
 	const tpsRedo = async () => {
+		console.log("hell");
 		const retVal = await props.tps.doTransaction();
 		refetchTodos(refetch);
 		return retVal;
@@ -170,7 +174,7 @@ const Homescreen = (props) => {
 			items: [],
 		}
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		
+
 		const refetched = await refetchTodos(refetch);
 		if(refetched && data) {
 		 let _id = data.addTodolist;
@@ -195,42 +199,31 @@ const Homescreen = (props) => {
 
 	};
 
-	const handleSetActive = (id) => {
+	const handleSetActive = (_id,id) => {
 		const todo = todolists.find(todo => todo.id === id || todo._id === id);
 
-		var resetColor;
+		var min = 0;
 		for(let i = 0; i < todolists.length; i++){
-			resetColor = document.getElementById("currentList-"+todolists[i].id);
-			resetColor.style.color = "#e9edf0";
+			if(todolists[i].id < min){
+				min = todolists[i].id;
+			}
 		}
-		var currentList = document.getElementById("currentList-"+id);
-		currentList.style.color = "#ffc800";
-
-		// var newTodoLists = [...todolists];
-		// var counter;
-		// todolists.forEach((list, index) => {
-		// 	if(list.id === id){
-		// 		counter = index;
-		// 	}
-		// });
-
-		// newTodoLists.splice(counter,1);
-		// newTodoLists.unshift(todo);
-		// console.log(newTodoLists);
-		// console.log(todo);
 		
+		SelectToTop({ variables: { _id:_id, id: id, min:min }, refetchQueries: [{ query: GET_DB_TODOS }]});
+		// refetch();
 		
-		// todolists = newTodoLists;
-		// console.log(todolists);
-
-
-		// const { data } = await SortColumn({ variables: { _id: listID }});
-		// return data;
 		props.tps.clearAllTransactions();
 		setActiveList(todo);
 	};
 
-	
+	// React.useEffect(()=>{window.addEventListener('keydown',(event)=>{
+	// 	if((event.ctrlKey && event.key === 'z') || (event.ctrlKey && event.key === 'Z')){
+	// 		tpsUndo();
+	// 	}else if((event.ctrlKey && event.key === 'y') || (event.ctrlKey && event.key === 'Y')){
+	// 		tpsRedo();
+	// 	}
+	// });},[]);
+
 	/*
 		Since we only have 3 modals, this sort of hardcoding isnt an issue, if there
 		were more it would probably make sense to make a general modal component, and
@@ -301,6 +294,7 @@ const Homescreen = (props) => {
 									tps = {props.tps}
 									undo={tpsUndo} redo={tpsRedo}
 									sortColumn = {sortColumn}
+									todolists = {todolists}
 								/>
 							</div>
 						:
